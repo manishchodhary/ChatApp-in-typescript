@@ -1,10 +1,20 @@
 import { config } from "dotenv";
-config();
-import { z } from "zod"; 
 
-export const env = {
-  PORT: process.env.PORT || 5000,
-  DATABASE_URL: process.env.DATABASE_URL!,
-  JWT_SECRET: process.env.JWT_SECRET!,
-  NODE_ENV: process.env.NODE_ENV || "development",
-};
+import { z } from "zod"; 
+const resulte = config();
+
+const envSchmea = z.object({
+  NODE_ENV:z.enum(["development","production","testing"]).default("development"),
+
+  PORT:z.coerce.number().default(5000),
+
+  DATABASE_URI : z.string(),
+
+  // JWT_SECRET:z.string().min(32, "JWT_SECRET must be at least 32 characters long")
+  
+
+})
+
+export const env = envSchmea.parse(process.env)
+
+
