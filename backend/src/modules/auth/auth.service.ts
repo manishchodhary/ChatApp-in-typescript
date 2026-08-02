@@ -1,6 +1,9 @@
 import prisma from "../../lib/prisma.js";
 import bcrypt from "bcrypt";
 import { type RegisterUserInput } from "./auth.validation.js";
+
+import { ApiError } from "../../utils/ApiError.js";
+
 export const registerService = async ({
   name,
   password,
@@ -12,7 +15,7 @@ export const registerService = async ({
     },
   });
   if (isExist) {
-    throw new Error("User already exist");
+    throw new ApiError(409,"User already exist");
   }
 
   const hashPasword = await bcrypt.hash(password, 10);
