@@ -1,11 +1,6 @@
 import prisma from "../../lib/prisma.js";
 import bcrypt from "bcrypt";
-interface RegisterUserInput {
-  name: string;
-  email: string;
-  password: string;
-}
-
+import { type RegisterUserInput } from "./auth.validation.js";
 export const registerService = async ({
   name,
   password,
