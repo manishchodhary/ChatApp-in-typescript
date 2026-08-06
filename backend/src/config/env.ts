@@ -10,7 +10,7 @@ const envSchmea = z.object({
 
   DATABASE_URI : z.string(),
 
-  // JWT_SECRET:z.string().min(32, "JWT_SECRET must be at least 32 characters long")
+  JWT_SECRET:z.string().min(32, "JWT_SECRET must be at least 32 characters long")
   
 
 })
