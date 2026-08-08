@@ -1,9 +1,16 @@
+import AuthCard from "../components/AuthCard";
 
-
-function Login() {
+export default function Login() {
   return (
-    <div>Login</div>
-  )
-}
+    <AuthCard>
+    <div className="text-center">
+      <h1 className="text-4xl font-bold text-slate-800">
+        Welcome back
+      </h1>
 
-export default Login
+      <p className="mt-3 text-slate-500">
+        Login to continue
+      </p>
+    </div></AuthCard>
+  );
+}
