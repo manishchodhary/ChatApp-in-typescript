@@ -1,4 +1,5 @@
 import AuthCard from "../components/AuthCard";
+import LoginFrom from "../components/LoginFrom";
 
 export default function Login() {
   return (
@@ -11,6 +12,7 @@ export default function Login() {
       <p className="mt-3 text-slate-500">
         Login to continue
       </p>
+      <LoginFrom/>
     </div></AuthCard>
   );
 }
