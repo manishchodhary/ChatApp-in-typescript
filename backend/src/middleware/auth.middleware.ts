@@ -5,6 +5,7 @@ import { verifyToken } from "../utils/jwt.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 
+
 export const authenticate = asyncHandler( async(req:Request,res:Response,next:NextFunction)=>{
     const authHeader = req.headers.authorization;
     if(!authHeader?.startsWith("Bearer")){

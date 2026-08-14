@@ -1,35 +1,77 @@
+
+import { Prisma } from "@prisma/client";
 import prisma from "../../lib/prisma.js";
 
-export const createOrGetDriectCoversation = async(currentUserId:string,targetUserId:string)=>{
-if (currentUserId === targetUserId) {
+export const getOrCreateDirectConversation  = async (
+  currentUserId: string,
+  otherUserId: string,
+) => {
+  if (currentUserId === otherUserId) {
     throw new Error("You cannot create a conversation with yourself");
   }
 
-  const targetUser = await prisma.user.findUnique({
-    where:{
-        id:targetUserId,
+  const [fristUserId, secondUserId] = [currentUserId, otherUserId].sort();
+
+  const directKey = `${fristUserId}:${secondUserId}`;
+
+  const existingConversation = await prisma.conversation.findUnique({
+    where: {
+      directKey: directKey,
     },
-    select:{
-        id:true
-    }
-  })
-    if (!targetUser) {
-    throw new Error("User not found");
+    include: {
+      members: {
+        select: {
+          userId: true,
+        },
+      },
+    },
+  });
+  if(existingConversation){
+    return existingConversation;
   }
-
-  const existingConversation = await prisma.conversation.findFirst({
-    where:{
+  try {
+    const conversation = await prisma.conversation.create({
+      data:{
         type:"DIRECT",
-        AND:[
-           members:{
-            some:{
-                
+        directKey,
+        members:{
+          create:[
+            {userId:currentUserId},
+            {userId:otherUserId}
+          ]
+        }
+      },
+     include:{
+      members:{
+        select:{
+          userId:true
+        }
+      }
+     }
+    })
+    return conversation;
+  } catch (error) {
+    if(
+error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ){
+      const conversation = await prisma.conversation.findUnique({
+        where:{
+          directKey:directKey
+        },
+        include:{
+          members:{
+            select:{
+              userId:true
             }
-           }
-        ]
-
+          }
+        }
+      })
+      if(conversation){
+        return conversation;
+      }
     }
-  })
 
-
-}
+    throw error;
+  }
+};
