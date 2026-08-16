@@ -4,6 +4,7 @@ import authRoutes from "./modules/auth/auth.routes.js";
 import { errorHandler } from "./middleware/error.middleware.js";
 import conversationRoutes from "./modules/conversation/conversation.routes.js";
 
+
 const app:Express = express()
 
 
@@ -17,6 +18,7 @@ app.use(express.json())
 
 app.use("/auth",authRoutes)
 app.use("/api/conversations", conversationRoutes);
+app.use("/api",router)
 app.use(errorHandler)
 
 export default app;
