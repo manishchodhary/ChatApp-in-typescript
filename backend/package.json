@@ -32,6 +32,6 @@
   "type": "module",
   "devDependencies": {
     "ts-node-dev": "^2.0.0",
-    "typescript": "^7.0.2"
+    "typescript": "^5.9.3"
   }
 }

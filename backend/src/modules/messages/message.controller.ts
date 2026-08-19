@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import asyncHandler from "../../utils/asyncHandler.js";
 import { createMessageSchema } from "./message.schema.js";
-import { createMessage } from "./messag.service.js";
+import { createMessage } from "./messags.service.js";
 
 export const createMessageController = asyncHandler(
   async (req: Request, res: Response) => {
